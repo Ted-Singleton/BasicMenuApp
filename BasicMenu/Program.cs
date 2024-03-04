@@ -2,6 +2,7 @@
 {
 
     //We need to keep asking for the username and password until an input is received
+    //We will use this a few times, so we break it out into a function
     private static string HandleInput(string prompt)
     {
         string? input = "";
@@ -30,20 +31,20 @@
         string correctUsername = "Ted";
         string correctPassword = "Password42!";
         string menu = $"""
-    Welcome, {correctUsername}!
-    --Main Menu--
-        1. Create new member
-        2. Edit member
-        3. View member
-        4. Delete member
-        X. Exit
-    """;
+            Welcome, {correctUsername}!
+            --Main Menu--
+                1. Create new member
+                2. Edit member
+                3. View member
+                4. Delete member
+                X. Exit
+            """;
 
         //We also need a bool to keep the program running
         bool running = true;
 
         //Initialise our input variables
-        string? username = "", password = "";
+        string username, password;
 
         //get the username and password
         username = HandleInput("Please enter your username: ");
@@ -55,7 +56,7 @@
         if (username.ToLower() == correctUsername.ToLower() && password == correctPassword)
         {
             //We now initialise our selection variable
-            string? selection = "";
+            string selection;
             //and start our main loop
             while (running)
             {
