@@ -23,11 +23,35 @@
         return input;
     }
 
+    //We need to check the username and password, so we can break this out into a function.
+    //We pass in the dictionary of correct login details, rather than create it here, since we may want to use it in other functions later
+    private static bool CheckPassword(string un, string pw, Dictionary<string, string> details)
+    {
+        //check if the input username is in the dictionary in a case-insensitive way
+        if(details.ContainsKey(un.ToLower()))
+        {
+            //if it is, check if the password matches and return that value
+            return details[un.ToLower()] == pw;
+        }
+        else
+        {
+            //if the username isn't in the dictionary, return false
+            return false;
+        }
+    }
+
     private static void Main(string[] args)
     {
         //Initialise our correct login details
-        string correctUsername = "Ted";
-        string correctPassword = "Password42!";
+        //EDIT: Made this a dictionary so we can handle multiple users
+        Dictionary<string, string> correctLoginDetails = new Dictionary<string, string>
+        {
+            //I changed the stored usernames to lower case, so we can still perform a case-insensitive check
+            {"ted", "Password42!"},
+            {"trevor", "Password123!"},
+            {"alice", "Password!"},
+            {"bob", "Bassword!"}
+        };
 
         //Initialise our input variables
         string username, password;
@@ -36,15 +60,18 @@
         username = HandleInput("Please enter your username: ");
         password = HandleInput("Please enter your password: ");
 
+        //EDIT: created a boolean to store the result of the login check
+        //This isn't optimal, but I find it makes the code more readable than having the CheckPassword function call directly in the if statement
+        bool loginSuccess = CheckPassword(username, password, correctLoginDetails);
 
         //Now we can check the username and password
         //If they're correct, we can display the menu
-        if (username.ToLower() == correctUsername.ToLower() && password == correctPassword)
+        if (loginSuccess)
         {
             //EDIT: moved these inside the if statement, since we only need them if the user successfully logs in
             //We can use a string to store our menu
             string menu = $"""
-            Welcome, {correctUsername}!
+            Welcome, {username}!
             --Main Menu--
                 1. Create new member
                 2. Edit member
